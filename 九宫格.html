@@ -1,0 +1,150 @@
+<!-- djy -->
+<!DOCTYPE HTML>
+<head>
+<meta charset="UTF-8">
+<script type="text/javascript" src="http://libs.baidu.com/jquery/1.9.0/jquery.min.js"></script>
+    <style>
+	  li{
+        list-style-type:none;
+	  }
+	  div{
+	  	vertical-align:middle;   
+	  	text-align:center;
+	  	width:50px;
+	  	height:30px;
+	  	display:inline-block;
+	  	margin:6px;
+	  	border:solid 3px #ccc;
+	  }
+	</style>
+</head>
+<html>
+<body>
+<ul>
+	<li>
+		<div  contenteditable="true" id="1"></div>
+		<div  contenteditable="true" id="2"></div>
+		<div  contenteditable="true" id="3"></div>
+	</li>
+	<li>
+		<div  contenteditable="true" id="4"></div>
+		<div  contenteditable="true" id="5"></div>
+		<div  contenteditable="true" id="6"></div>
+	</li>
+	<li>
+		<div  contenteditable="true" id="7"></div>
+		<div  contenteditable="true" id="8"></div>
+		<div  contenteditable="true" id="9"></div>
+	</li>
+</ul>
+
+ <h1>游戏开始!</h1>
+ <p>请输入数字使每行每列都相等</p>
+<script type="text/javascript">
+   function init(num){
+   	 var num=Math.round(Math.random()*num);
+   	 function init_num(){
+   	 	var child=Math.round(Math.random()*9); 
+   	 	var num=Math.round(Math.random()*10); 	
+            $("ul").find("div").eq(child-1).css("background-color","#999").attr("contenteditable","false").html(num);
+   	 	 }
+   	 	 num<2?num=2:num;
+   	 	 for(i=0;i<num;i++){
+   	 	 	init_num();
+   	 	 }
+       }
+   function success(){
+   	alert("成功!");
+   	window.location.reload();
+   }
+   function main(){
+      var equation1=parseInt($("#1").html())+parseInt($("#2").html())+parseInt($("#3").html());
+      var equation2=parseInt($("#4").html())+parseInt($("#5").html())+parseInt($("#6").html());
+      var equation3=parseInt($("#7").html())+parseInt($("#8").html())+parseInt($("#9").html());
+      var equation4=parseInt($("#1").html())+parseInt($("#4").html())+parseInt($("#7").html());
+      var equation5=parseInt($("#2").html())+parseInt($("#5").html())+parseInt($("#8").html());
+      var equation6=parseInt($("#3").html())+parseInt($("#6").html())+parseInt($("#9").html());
+      var equation=[equation1,equation2,equation3,equation4,equation5,equation6];
+      $("h1").html("row1:"+equation1+"\nrow2:"+equation2+"\nrow3:"+equation3+"\ncol1:"+equation4+"\ncol2:"+equation5+"\ncol3:"+equation6);
+      console.log("row1:"+equation1+"\nrow2:"+equation2+"\nrow3:"+equation3+"\ncol1:"+equation4+"\ncol2:"+equation5+"\ncol3:"+equation6);
+      var flag=true;
+     for(i=0;i<6;i++){
+     	for(j=i;j<6;j++){
+            if(equation[j]!==equation[i]){
+            	flag=false;
+            }
+     	}
+     }
+     console.log(flag);
+     if(flag==true){
+        success();
+     }
+   }
+   $(document).ready(function(){
+        init(3);
+        $("ul").find("div").bind('DOMSubtreeModified',function(){
+        	main();
+        });
+   })
+</script>
+<script>
+function openPackage(percent1,percent2,percent3,package){
+	var percent1=percent1;
+	var percent2=percent2;
+	var percent3=percent3;
+	var sum=0;
+	var lengendary=0;
+	var historical=0;
+	var rare=0;
+	var flag=false;
+		function random(percent1,percent2,percent3,flag,final_package){
+         num1=Math.random()*(100-percent1);
+         num2=Math.random()*(100-percent2);
+         num3=Math.random()*(100-percent3);
+         //console.log(num);
+         if(num1<percent1){
+         	console.log("woo!lengendary!");
+         	sum+=400;
+         	lengendary++;
+         }else if(num2<percent2){
+         	console.log("historical!");
+         	sum+=100;
+         	historical++;
+         }
+         else if(num3<percent3&&flag==false){
+         	console.log("rare!");
+         	sum+=20;
+         	rare++;
+         }
+         else{
+         	sum+=5;
+         }
+         if(flag==true){
+            console.log("rare!");
+         	sum+=20;
+         	rare++;
+         }
+         if(final_package==true){
+            console.log(sum+" dust\n"+lengendary+" lengendary\n"+historical+" historical\n"+rare+" rare\n");
+         }
+
+	}
+	var cards=5*package;
+	for(i=0;i<cards;i++){
+		
+		var final_package=false;
+		if(i%5==0){
+			flag=true;
+		}else{
+			flag=false;
+		}
+		if(i==cards-1){
+            final_package=true;
+		}
+		random(percent1,percent2,percent3,flag,final_package);
+	}
+}
+openPackage(1,5,20,5);
+</script>
+</body>
+</html>

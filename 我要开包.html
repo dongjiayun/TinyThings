@@ -1,0 +1,152 @@
+<!-- djy -->
+<!DOCTYPE html>
+<html>
+<head>
+<meta charset="UTF-8">
+<script type="text/javascript" src="http://libs.baidu.com/jquery/1.9.0/jquery.min.js"></script>
+   <title>开包模拟器</title>
+</head>
+<body>
+<h1>我要开包</h1>
+<input type="text">请填入数字</input>
+<!-- <h3 contenteditable="true">请填入数字</h3> -->
+<button>开包!</button>
+<div class="div"></div>
+<script>
+function openPackage(percent1,percent2,percent3,package){
+   var percent1=percent1;
+   var percent2=percent2;
+   var percent3=percent3;
+   var sum=0;
+   var lengendary=0;
+   var historical=0;
+   var rare=0;
+   var golden_lengendary=0;
+   var golden_historical=0;
+   var golden_rare=0;
+   var golden_normal=0;
+   var flag=false;
+      function random(percent1,percent2,percent3,flag,final_package){
+         num1=Math.random()*(100-percent1);
+         num2=Math.random()*(100-percent2);
+         num3=Math.random()*(100-percent3);
+         num_1=Math.random()*(100-percent1/5);
+         num_2=Math.random()*(100-percent2/5);
+         num_3=Math.random()*(100-percent3/5);
+         num_4=Math.random()*(90);
+         //num_=0;
+         // num=[num1,num2,num3,num_1,num_2,num_3,num_4];
+
+         //      for(ii=0;ii<7;ii++){
+         //         for(jj=ii;jj<7;jj++){
+         //              num[ii]<num[jj]?num_=num[ii]:num[jj];
+         //          }
+         //        }
+         //console.log(num);
+         if(num_1<percent1/5){
+            console.log("woo!golden lengendary!");
+            $("div").append("<p>woo!golden lengendary!</p>");
+            sum+=1600;
+            golden_lengendary++;
+         }
+        else if(num_2<percent2/5){
+            console.log("golden historical!");
+            $("div").append("<p>golden historical!</p>");
+            sum+=400;
+            golden_historical++;
+         }
+         else if(num_3<percent3/5){
+            console.log("golden rare!");
+            $("div").append("<p>golden rare!</p>");
+            sum+=100;
+            golden_rare++;
+         }         
+         else if(num1<percent1){
+            console.log("woo!lengendary!");
+            $("div").append("<p>woo!lengendary!</p>");
+            sum+=400;
+            lengendary++;
+         }
+
+
+         else if(num2<percent2){
+            console.log("historical!");
+            $("div").append("<p>historical!</p>");
+            sum+=100;
+            historical++;
+         }
+
+
+         else if(num3<percent3&&flag==false){
+            console.log("rare!");
+            $("div").append("<p>rare!</p>");
+            sum+=20;
+            rare++;
+         }
+         else if(num_4>10&&flag==true){
+            console.log("rare!");
+             $("div").append("<p>rare!</p>");
+            sum+=20;
+            rare++;
+         }
+         else if(num_4<10){
+            console.log("golden normal!");
+            $("div").append("<p>golden normal!</p>");
+            sum+=50;
+            golden_normal++;
+         }
+
+         else if(flag==false){
+            sum+=5;
+         }
+
+         if(final_package==true){
+            console.log(sum+" dust\n"+golden_lengendary+" golden lengendary\n"+lengendary+" lengendary\n"+golden_historical+" golden historical\n"+historical+" historical\n"+golden_rare+" golden rare\n"+rare+" rare\n"+golden_normal+" golden normal\n");
+            $(".div").append("<p>"+sum+" dust\n;"+golden_lengendary+" golden lengendary\n;"+lengendary+" lengendary\n;"+golden_historical+" golden historical\n;"+historical+" historical\n;"+golden_rare+" golden rare\n;"+rare+" rare\n;"+golden_normal+" golden normal\n;"+"</p>");
+         }
+
+   }
+   var cards=5*package;
+   for(i=0;i<cards;i++){
+      
+      var final_package=false;
+      if(i%5==0){
+         flag=true;
+         var current_package=i/5+1;
+         console.log("<--------------------the "+current_package+" package-------------------->\n")
+         $(".div").append("<p>"+"<--------------------the "+current_package+" package-------------------->"+"</p>");
+      }else{
+         flag=false;
+      }
+      if(i==cards-1){
+            final_package=true;
+      }
+      random(percent1,percent2,percent3,flag,final_package);
+   }
+}
+
+$("input").click(function(){
+   $("input").val("");
+})
+function input(){
+   $(".div").empty();
+   var package=parseInt($("input").val());
+   openPackage(1,5,20,package);
+   //console.log(package);
+}
+$("button").click(function(){
+   input();
+})
+$("input").keypress(function(e){
+    var key=e.which;
+    if(key==13){
+      input();
+    }
+})
+
+
+//openPackage(1,5,20,5);
+</script>
+</body>
+</html>
+
